@@ -1,0 +1,6 @@
+{
+  "name": "C++ Library Management System OOP Studio",
+  "description": "Interactive C++ OOP learning environment, virtual C++ runtime simulator, code generator, UML visualizer, and AI code reviewer for the Library Management System exercise.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
