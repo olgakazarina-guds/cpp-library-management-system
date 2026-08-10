@@ -57,6 +57,9 @@ public:
     void set_borrowed(bool status);
 
     // --- UTILITY METHODS ---
+    // Checks if the book has a non-empty, valid ISBN string.
+    bool is_valid_isbn() const;
+
     // Prints book metadata to std::cout formatted cleanly.
     void display_info() const;
 };
@@ -110,8 +113,9 @@ bool Book::get_is_borrowed() const {
 }
 
 // Setters: Validate input before mutating state (Encapsulation safeguard)
+// Simple comment: Checks if string is not empty before updating attribute
 void Book::set_title(const std::string& t) {
-    if (!t.empty()) { // Ensure title is not an empty string
+    if (!t.empty()) { // Ensure title is not empty
         title = t;
     }
 }
@@ -132,11 +136,17 @@ void Book::set_borrowed(bool status) {
     is_borrowed = status; // Update availability status
 }
 
+// Validation helper method: checks if ISBN string has valid minimum length (e.g. >= 5 chars)
+bool Book::is_valid_isbn() const {
+    return !isbn.empty() && isbn.length() >= 5;
+}
+
 // Display method: Formats and outputs book information to console
 void Book::display_info() const {
-    std::cout << "[ISBN: " << isbn << "] \"" << title << "\" by " << author 
+    std::cout << "[ISBN: " << isbn << "] \\"" << title << "\\" by " << author 
               << " (" << (is_borrowed ? "Borrowed" : "Available") << ")" << std::endl;
 }
+
 `,
     annotations: []
   },
@@ -193,6 +203,7 @@ public:
 
     // Common logic shared by all library members
     bool can_borrow() const;
+    bool has_borrowed_isbn(const std::string& isbn) const;
     bool borrow_book(const std::string& isbn);
     bool return_book(const std::string& isbn);
 
@@ -275,6 +286,11 @@ size_t Member::get_borrowed_count() const {
 // or 5 for Premium thanks to virtual function dispatch!
 bool Member::can_borrow() const {
     return list_of_borrowed_books.size() < get_max_borrow_limit();
+}
+
+// Helper to check if member currently holds a specific book by ISBN
+bool Member::has_borrowed_isbn(const std::string& isbn) const {
+    return std::find(list_of_borrowed_books.begin(), list_of_borrowed_books.end(), isbn) != list_of_borrowed_books.end();
 }
 
 // Borrow Book Logic
@@ -551,6 +567,7 @@ public:
     // --- UTILITY DISPLAY & ACCESSORS ---
     void display_catalog() const;
     void display_members() const;
+    size_t get_available_book_count() const;
     const BookRepository& get_repository() const;
 };
 
@@ -603,7 +620,7 @@ std::shared_ptr<Member> MyLibrary::get_member(const std::string& member_id) cons
 bool MyLibrary::add_book(const Book& book) {
     bool success = repository.add_book(book);
     if (success) {
-        std::cout << "[SUCCESS] Added Book to Repository: \"" << book.get_title() << "\" [ISBN: " << book.get_isbn() << "]" << std::endl;
+        std::cout << "[SUCCESS] Added Book to Repository: \\"" << book.get_title() << "\\" [ISBN: " << book.get_isbn() << "]" << std::endl;
     } else {
         std::cout << "[ERROR] Book with ISBN " << book.get_isbn() << " already exists in repository." << std::endl;
     }
@@ -629,7 +646,7 @@ bool MyLibrary::borrow_book(const std::string& member_id, const std::string& isb
 
     // Step 3: Verify book availability
     if (book->get_is_borrowed()) {
-        std::cout << "[ERROR] Borrow failed: Book \"" << book->get_title() << "\" is already borrowed." << std::endl;
+        std::cout << "[ERROR] Borrow failed: Book \\"" << book->get_title() << "\\" is already borrowed." << std::endl;
         return false;
     }
 
@@ -645,7 +662,7 @@ bool MyLibrary::borrow_book(const std::string& member_id, const std::string& isb
     book->set_borrowed(true);
 
     std::cout << "[SUCCESS] " << member->get_name() << " (" << member->get_member_type() 
-              << ") borrowed \"" << book->get_title() << "\". (" 
+              << ") borrowed \\"" << book->get_title() << "\\". (" 
               << member->get_borrowed_count() << "/" << member->get_max_borrow_limit() << " active)" << std::endl;
     return true;
 }
@@ -671,25 +688,35 @@ bool MyLibrary::return_book(const std::string& member_id, const std::string& isb
     }
 
     book->set_borrowed(false); // Mark book as available again
-    std::cout << "[SUCCESS] " << member->get_name() << " returned \"" << book->get_title() 
-              << "\". Remaining borrowed: " << member->get_borrowed_count() << std::endl;
+    std::cout << "[SUCCESS] " << member->get_name() << " returned \\"" << book->get_title() 
+              << "\\". Remaining borrowed: " << member->get_borrowed_count() << std::endl;
     return true;
 }
 
 void MyLibrary::display_catalog() const {
-    std::cout << "\n=========== LIBRARY CATALOG (" << repository.size() << " Books) ===========" << std::endl;
+    std::cout << std::endl << "=========== LIBRARY CATALOG (" << repository.size() << " Books) ===========" << std::endl;
     for (const auto& book : repository.get_all_books()) {
         book.display_info();
     }
-    std::cout << "========================================================\n" << std::endl;
+    std::cout << "========================================================" << std::endl << std::endl;
 }
 
 void MyLibrary::display_members() const {
-    std::cout << "\n=========== REGISTERED MEMBERS (" << members.size() << " Members) ===========" << std::endl;
+    std::cout << std::endl << "=========== REGISTERED MEMBERS (" << members.size() << " Members) ===========" << std::endl;
     for (const auto& pair : members) {
         pair.second->display_info();
     }
-    std::cout << "=========================================================\n" << std::endl;
+    std::cout << "=========================================================" << std::endl << std::endl;
+}
+
+size_t MyLibrary::get_available_book_count() const {
+    size_t count = 0;
+    for (const auto& book : repository.get_all_books()) {
+        if (!book.get_is_borrowed()) {
+            count++;
+        }
+    }
+    return count;
 }
 
 const BookRepository& MyLibrary::get_repository() const {
@@ -700,12 +727,12 @@ const BookRepository& MyLibrary::get_repository() const {
   },
   {
     id: 'main_cpp',
-    name: 'main.cpp',
+    name: 'Main.cpp',
     language: 'cpp',
     category: 'main',
     description: 'Driver file demonstrating all OOP principles, member borrowing limits, polymorphic abstraction, and error scenarios.',
     content: `// ============================================================================
-// File: main.cpp
+// File: Main.cpp
 // Concept: MAIN DRIVER & COMPLETE OOP SYSTEM HARNESS
 // Description: Demonstrates Encapsulation, Inheritance, Polymorphism, Abstraction,
 //              Composition, Aggregation, and Association in execution.
@@ -716,23 +743,22 @@ const BookRepository& MyLibrary::get_repository() const {
 #include <memory> // For std::unique_ptr, std::shared_ptr, std::make_unique, std::make_shared
 
 int main() {
-    std::cout << "===================================================\n";
-    std::cout << "   C++ LIBRARY MANAGEMENT SYSTEM - OOP TEST HARNESS\n";
-    std::cout << "===================================================\n\n";
+    std::cout << "===================================================" << std::endl;
+    std::cout << "   C++ LIBRARY MANAGEMENT SYSTEM - OOP TEST HARNESS" << std::endl;
+    std::cout << "===================================================" << std::endl << std::endl;
 
     // --- POLYMORPHISM & ABSTRACTION DEMONSTRATION ---
-    // We instantiate MyLibrary using a smart pointer to the abstract base class (AbstractLibrary).
-    // This demonstrates loose coupling: main() depends on the Abstract interface, not raw implementation details.
+    // Simple concept: Instantiate MyLibrary using pointer to abstract interface AbstractLibrary.
     std::unique_ptr<AbstractLibrary> library = std::make_unique<MyLibrary>();
 
-    // Using dynamic_cast to access MyLibrary-specific helper functions (like register_member)
+    // Dynamic cast allows accessing MyLibrary specific methods like register_member
     MyLibrary* myLib = dynamic_cast<MyLibrary*>(library.get());
 
     // ------------------------------------------------------------------------
     // STEP 1. POPULATE CATALOG (Encapsulation + Composition)
-    // Books are created using constructors and passed into the library repository.
+    // Simple concept: Adding book objects into repository
     // ------------------------------------------------------------------------
-    std::cout << "--- 1. Adding Books to Repository ---\n";
+    std::cout << "--- 1. Adding Books to Repository ---" << std::endl;
     library->add_book(Book("The C++ Programming Language", "Bjarne Stroustrup", "978-0321563842"));
     library->add_book(Book("Design Patterns", "Erich Gamma et al.", "978-0201633610"));
     library->add_book(Book("Clean Code", "Robert C. Martin", "978-0132350884"));
@@ -742,10 +768,9 @@ int main() {
 
     // ------------------------------------------------------------------------
     // STEP 2. REGISTER MEMBERS (Inheritance: Regular vs Premium Subclasses)
-    // Demonstrates Subclassing: Alice is a RegularMember (limit 3 books).
-    // Bob is a PremiumMember (limit 5 books).
+    // Simple concept: Alice is RegularMember (limit 3), Bob is PremiumMember (limit 5)
     // ------------------------------------------------------------------------
-    std::cout << "\n--- 2. Registering Members (Inheritance) ---\n";
+    std::cout << std::endl << "--- 2. Registering Members (Inheritance) ---" << std::endl;
     auto alice = std::make_shared<RegularMember>("Alice Smith", "M001"); // Max 3 books
     auto bob = std::make_shared<PremiumMember>("Bob Jones", "M002");    // Max 5 books
 
@@ -757,10 +782,9 @@ int main() {
 
     // ------------------------------------------------------------------------
     // STEP 3. TEST BORROWING LIMITS (Polymorphism)
-    // Regular Member Alice attempts to borrow 4 books.
-    // The 4th borrow attempt MUST be rejected by the system!
+    // Simple concept: Alice attempts to borrow 4 books, 4th attempt fails because max limit is 3.
     // ------------------------------------------------------------------------
-    std::cout << "--- 3. Testing Regular Member Borrowing Limit (Alice - Max 3) ---\n";
+    std::cout << "--- 3. Testing Regular Member Borrowing Limit (Alice - Max 3) ---" << std::endl;
     library->borrow_book("M001", "978-0321563842"); // Borrow 1
     library->borrow_book("M001", "978-0201633610"); // Borrow 2
     library->borrow_book("M001", "978-0132350884"); // Borrow 3
@@ -769,31 +793,30 @@ int main() {
 
     // ------------------------------------------------------------------------
     // STEP 4. TEST PREMIUM MEMBER BORROWING LIMITS (Bob - Max 5)
-    // Premium Member Bob can borrow up to 5 books without error.
+    // Simple concept: Bob can borrow up to 5 books.
     // ------------------------------------------------------------------------
-    std::cout << "\n--- 4. Testing Premium Member Borrowing Limit (Bob - Max 5) ---\n";
+    std::cout << std::endl << "--- 4. Testing Premium Member Borrowing Limit (Bob - Max 5) ---" << std::endl;
     library->borrow_book("M002", "978-1491903994"); // Borrow 1
     library->borrow_book("M002", "978-0262033848"); // Borrow 2
     library->borrow_book("M002", "978-0262510875"); // Borrow 3
 
     // ------------------------------------------------------------------------
     // STEP 5. RETURNING BOOKS & RE-BORROWING
-    // Alice returns a book, freeing up her capacity to borrow another.
+    // Simple concept: Returning a book frees up borrowing capacity
     // ------------------------------------------------------------------------
-    std::cout << "\n--- 5. Returning Books ---\n";
+    std::cout << std::endl << "--- 5. Returning Books ---" << std::endl;
     library->return_book("M001", "978-0321563842"); // Alice returns 1st book
-    // Alice now holds 2/3 books, so her 4th book borrow will now SUCCEED!
-    std::cout << "Alice attempts borrowing again after returning:\n";
+    std::cout << "Alice attempts borrowing again after returning:" << std::endl;
     library->borrow_book("M001", "978-0321563842");
 
     myLib->display_catalog();
     myLib->display_members();
 
-    std::cout << "===================================================\n";
-    std::cout << "   ALL C++ OOP SYSTEM TESTS EXECUTED SUCCESSFULLY!\n";
-    std::cout << "===================================================\n";
+    std::cout << "===================================================" << std::endl;
+    std::cout << "   ALL C++ OOP SYSTEM TESTS EXECUTED SUCCESSFULLY!" << std::endl;
+    std::cout << "===================================================" << std::endl;
 
-    return 0; // Return exit code 0 indicating successful execution
+    return 0; // Return 0 = successful execution
 }
 `,
     annotations: [
