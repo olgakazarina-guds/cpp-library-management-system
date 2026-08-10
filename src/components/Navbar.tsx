@@ -20,6 +20,12 @@ interface NavbarProps {
   isRunningSuite: boolean;
 }
 
+/**
+ * Navbar Component
+ * 
+ * Top navigation bar providing tabs to switch between views (Simulator, C++ Codebase, UML Architecture, Python vs C++ Guide, AI Review)
+ * and quick actions to run the virtual C++ test suite or open deliverables.
+ */
 export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
@@ -38,28 +44,30 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200 text-slate-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 py-3">
+        <div className="flex flex-wrap md:flex-nowrap items-center justify-between gap-3 py-2.5">
           
           {/* Brand Logo & Title */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('simulator')}>
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-sm">
+          <div className="flex items-center space-x-3 cursor-pointer shrink-0" onClick={() => setActiveTab('simulator')}>
+            <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-xs shrink-0">
               <Book className="w-5 h-5" />
             </div>
-            <div>
+            <div className="shrink-0">
               <div className="flex items-center space-x-2">
-                <h1 className="text-lg font-bold tracking-tight text-slate-900 uppercase">Athenaeum Core</h1>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 uppercase">
+                <h1 className="text-base sm:text-lg font-bold text-slate-900 whitespace-nowrap">
+                  C++ Library System
+                </h1>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 whitespace-nowrap hidden lg:inline-block">
                   Russian Classics
                 </span>
               </div>
-              <p className="text-xs text-slate-500 font-medium tracking-widest uppercase hidden sm:block">
-                C++ Library Management System v2.0
+              <p className="text-xs text-slate-500 font-normal whitespace-nowrap hidden sm:block">
+                OOP Mini-Project (Weeks 3 &amp; 4)
               </p>
             </div>
           </div>
 
           {/* Navigation Tabs */}
-          <nav className="hidden md:flex items-center space-x-1 bg-slate-100/80 p-1.5 rounded-xl border border-gray-200">
+          <nav className="hidden md:flex items-center space-x-1 bg-slate-100/90 p-1 rounded-xl border border-gray-200 shrink">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -67,13 +75,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 ${
+                  className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-150 ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow-sm'
+                      ? 'bg-blue-600 text-white shadow-xs'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -81,11 +89,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Action Buttons */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 shrink-0 ml-auto md:ml-0">
             <button
               onClick={onRunTestSuite}
               disabled={isRunningSuite}
-              className="flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-slate-900 hover:bg-slate-800 text-white shadow-sm transition disabled:opacity-50"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white shadow-xs transition disabled:opacity-50"
               title="Execute full C++ test harness in virtual runtime"
             >
               <Play className={`w-3.5 h-3.5 ${isRunningSuite ? 'animate-spin' : ''}`} />
@@ -94,7 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={onOpenDeliverablesModal}
-              className="flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-white border border-gray-300 text-slate-700 hover:bg-gray-50 shadow-sm transition"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-gray-300 text-slate-700 hover:bg-gray-50 shadow-xs transition"
               title="Download C++ Zip, Execution Report, and AI Framework"
             >
               <FolderArchive className="w-3.5 h-3.5 text-blue-600" />

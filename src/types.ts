@@ -71,4 +71,5 @@ export interface AIReviewResult {
   areasForImprovement: string[];
   aiUsageFramework: string;
   improvedCodeSnippet?: string;
+  yellowdigPeerReview?: string;
 }
