@@ -26,58 +26,58 @@ int main() {
 
     // ------------------------------------------------------------------------
     // STEP 1. POPULATE CATALOG (Encapsulation + Composition)
-    // Simple concept: Adding book objects into repository
+    // Simple concept: Adding Russian classic literature into repository
     // ------------------------------------------------------------------------
     std::cout << "--- 1. Adding Books to Repository ---" << std::endl;
-    library->add_book(Book("The C++ Programming Language", "Bjarne Stroustrup", "978-0321563842"));
-    library->add_book(Book("Design Patterns", "Erich Gamma et al.", "978-0201633610"));
-    library->add_book(Book("Clean Code", "Robert C. Martin", "978-0132350884"));
-    library->add_book(Book("Effective Modern C++", "Scott Meyers", "978-1491903994"));
-    library->add_book(Book("Introduction to Algorithms", "Thomas H. Cormen", "978-0262033848"));
-    library->add_book(Book("Structure and Interpretation of Computer Programs", "Harold Abelson", "978-0262510875"));
+    library->add_book(Book("War and Peace", "Leo Tolstoy", "978-0140447934"));
+    library->add_book(Book("Crime and Punishment", "Fyodor Dostoevsky", "978-0140449136"));
+    library->add_book(Book("The Master and Margarita", "Mikhail Bulgakov", "978-0141180144"));
+    library->add_book(Book("Anna Karenina", "Leo Tolstoy", "978-0143035008"));
+    library->add_book(Book("The Brothers Karamazov", "Fyodor Dostoevsky", "978-0140449242"));
+    library->add_book(Book("Fathers and Sons", "Ivan Turgenev", "978-0140441475"));
 
     // ------------------------------------------------------------------------
     // STEP 2. REGISTER MEMBERS (Inheritance: Regular vs Premium Subclasses)
-    // Simple concept: Alice is RegularMember (limit 3), Bob is PremiumMember (limit 5)
+    // Simple concept: Anna Ivanova is RegularMember (limit 3), Dmitry Petrov is PremiumMember (limit 5)
     // ------------------------------------------------------------------------
     std::cout << std::endl << "--- 2. Registering Members (Inheritance) ---" << std::endl;
-    auto alice = std::make_shared<RegularMember>("Alice Smith", "M001"); // Max 3 books
-    auto bob = std::make_shared<PremiumMember>("Bob Jones", "M002");    // Max 5 books
+    auto anna = std::make_shared<RegularMember>("Anna Ivanova", "M001");    // Max 3 books
+    auto dmitry = std::make_shared<PremiumMember>("Dmitry Petrov", "M002");  // Max 5 books
 
-    myLib->register_member(alice);
-    myLib->register_member(bob);
+    myLib->register_member(anna);
+    myLib->register_member(dmitry);
 
     myLib->display_catalog();
     myLib->display_members();
 
     // ------------------------------------------------------------------------
     // STEP 3. TEST BORROWING LIMITS (Polymorphism)
-    // Simple concept: Alice attempts to borrow 4 books, 4th attempt fails because max limit is 3.
+    // Simple concept: Anna attempts to borrow 4 books, 4th attempt fails because max limit is 3.
     // ------------------------------------------------------------------------
-    std::cout << "--- 3. Testing Regular Member Borrowing Limit (Alice - Max 3) ---" << std::endl;
-    library->borrow_book("M001", "978-0321563842"); // Borrow 1
-    library->borrow_book("M001", "978-0201633610"); // Borrow 2
-    library->borrow_book("M001", "978-0132350884"); // Borrow 3
+    std::cout << "--- 3. Testing Regular Member Borrowing Limit (Anna Ivanova - Max 3) ---" << std::endl;
+    library->borrow_book("M001", "978-0140447934"); // Borrow 1: War and Peace
+    library->borrow_book("M001", "978-0140449136"); // Borrow 2: Crime and Punishment
+    library->borrow_book("M001", "978-0141180144"); // Borrow 3: The Master and Margarita
     // 4th borrow attempt: Triggers borrowing limit enforcement!
-    library->borrow_book("M001", "978-1491903994"); 
+    library->borrow_book("M001", "978-0143035008"); 
 
     // ------------------------------------------------------------------------
-    // STEP 4. TEST PREMIUM MEMBER BORROWING LIMITS (Bob - Max 5)
-    // Simple concept: Bob can borrow up to 5 books.
+    // STEP 4. TEST PREMIUM MEMBER BORROWING LIMITS (Dmitry Petrov - Max 5)
+    // Simple concept: Dmitry can borrow up to 5 books.
     // ------------------------------------------------------------------------
-    std::cout << std::endl << "--- 4. Testing Premium Member Borrowing Limit (Bob - Max 5) ---" << std::endl;
-    library->borrow_book("M002", "978-1491903994"); // Borrow 1
-    library->borrow_book("M002", "978-0262033848"); // Borrow 2
-    library->borrow_book("M002", "978-0262510875"); // Borrow 3
+    std::cout << std::endl << "--- 4. Testing Premium Member Borrowing Limit (Dmitry Petrov - Max 5) ---" << std::endl;
+    library->borrow_book("M002", "978-0143035008"); // Borrow 1: Anna Karenina
+    library->borrow_book("M002", "978-0140449242"); // Borrow 2: The Brothers Karamazov
+    library->borrow_book("M002", "978-0140441475"); // Borrow 3: Fathers and Sons
 
     // ------------------------------------------------------------------------
     // STEP 5. RETURNING BOOKS & RE-BORROWING
     // Simple concept: Returning a book frees up borrowing capacity
     // ------------------------------------------------------------------------
     std::cout << std::endl << "--- 5. Returning Books ---" << std::endl;
-    library->return_book("M001", "978-0321563842"); // Alice returns 1st book
-    std::cout << "Alice attempts borrowing again after returning:" << std::endl;
-    library->borrow_book("M001", "978-0321563842");
+    library->return_book("M001", "978-0140447934"); // Anna returns War and Peace
+    std::cout << "Anna attempts borrowing again after returning:" << std::endl;
+    library->borrow_book("M001", "978-0140447934");
 
     myLib->display_catalog();
     myLib->display_members();
