@@ -268,13 +268,14 @@ ALL TEST HARNESS CASES PASSED (0 ERRORS, C++17 COMPLIANT)
     printWindow.document.close();
   };
 
-  const aiFrameworkText = `### AI Usage Disclosure Framework
-- **Purpose**: Assisted with architectural verification, C++ syntax checking (const correctness, pure virtual functions), and comparison with Python OOP constructs.
-- **Prompts Used**:
-  1. "Analyze C++ class inheritance for Member base class with RegularMember (3 limit) vs PremiumMember (5 limit)."
-  2. "Verify AbstractLibrary pure virtual interface implementation in MyLibrary."
-  3. "Ensure BookRepository composition uses std::unordered_map delegation properly."
-- **Verification**: All generated C++ code was manually tested in the interactive simulator and validated against C++17 compilation rules.`;
+  const aiFrameworkText = `### AI Usage Disclosure Framework (AI Assessment Scale Compliant)
+- **Framework Standard**: Aligned with AI Assessment Scale (aiassessmentscale.com)
+- **MAIN SCALE: Level 2 - AI Planning & Idea Generation**: Used AI primarily for architectural planning, designing C++ class relationships (AbstractLibrary -> MyLibrary -> Member subclasses), and container strategies (std::vector vs std::unordered_map).
+- **SUPPORTING SCALE: Level 4 - Selective AI Collaboration**: Consulted AI for specific C++ syntax patterns (virtual destructors, const correctness) WITH MANDATORY line-by-line human inspection, manual code editing, beginner-friendly comment rewrites, and local g++ compiler verification.
+- **Sample Prompts Used**:
+  1. "How should I structure a C++ Library Management System with Book, Member, and Library classes across .hpp and .cpp files?"
+  2. "Compare std::vector vs std::unordered_map for BookRepository composition in C++17."
+  3. "Syntax for virtual destructor in Member base class and limit checking in RegularMember vs PremiumMember."`;
 
   const handleCopyAiFramework = () => {
     navigator.clipboard.writeText(aiFrameworkText);

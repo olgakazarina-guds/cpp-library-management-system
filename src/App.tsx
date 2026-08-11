@@ -4,7 +4,7 @@ import { InteractiveSimulator } from './components/InteractiveSimulator';
 import { CodeExplorer } from './components/CodeExplorer';
 import { UMLVisualizer } from './components/UMLVisualizer';
 import { PyVsCppGuide } from './components/PyVsCppGuide';
-import { AiReviewer } from './components/AiReviewer';
+import { AiUsageReport } from './components/AiUsageReport';
 import { DeliverablesModal } from './components/DeliverablesModal';
 import { virtualRuntime } from './services/virtualCppRuntime';
 
@@ -47,14 +47,14 @@ export default function App() {
 
         {activeTab === 'guide' && <PyVsCppGuide />}
 
-        {activeTab === 'ai' && <AiReviewer />}
+        {activeTab === 'ai' && <AiUsageReport />}
       </main>
 
       {/* Footer */}
       <footer className="bg-white border-t border-gray-200 py-4 px-6 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span className="font-medium text-slate-600">Athenaeum Core • Russian Classic Literature Edition</span>
-          <span className="text-slate-500">C++ OOP Library Management System (Week 4 Assignment)</span>
+          <span className="font-medium text-slate-600">C++ Library System • Russian Literature Edition</span>
+          <span className="text-slate-500">OOP Mini-Project (Weeks 3 &amp; 4)</span>
         </div>
       </footer>
 

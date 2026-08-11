@@ -4,12 +4,10 @@ import {
   Code2, 
   Network, 
   ArrowLeftRight, 
-  Bot, 
+  FileText, 
   Play, 
-  Download, 
   FolderArchive,
-  Book,
-  Sparkles
+  Book
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -23,7 +21,7 @@ interface NavbarProps {
 /**
  * Navbar Component
  * 
- * Top navigation bar providing tabs to switch between views (Simulator, C++ Codebase, UML Architecture, Python vs C++ Guide, AI Review)
+ * Top navigation bar providing tabs to switch between views (Simulator, C++ Codebase, UML Architecture, Python vs C++ Guide, AI Usage Report)
  * and quick actions to run the virtual C++ test suite or open deliverables.
  */
 export const Navbar: React.FC<NavbarProps> = ({
@@ -38,7 +36,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'code', label: 'C++ Codebase', icon: Code2 },
     { id: 'uml', label: 'UML Architecture', icon: Network },
     { id: 'guide', label: 'Python vs C++', icon: ArrowLeftRight },
-    { id: 'ai', label: 'AI Review & Disclosure', icon: Bot },
+    { id: 'ai', label: 'AI Usage Report', icon: FileText },
   ];
 
   return (

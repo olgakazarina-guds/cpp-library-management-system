@@ -27,16 +27,16 @@ export const PyVsCppGuide: React.FC = () => {
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
       
       {/* Top Banner */}
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2">
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight uppercase">Python vs C++ OOP Bridge</h2>
-            <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-blue-50 text-blue-700 border border-blue-200 uppercase">
-              Course Transition Guide
+            <h2 className="text-lg font-bold text-slate-900 tracking-tight">Python vs C++ Guide</h2>
+            <span className="px-2.5 py-0.5 text-xs font-semibold rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+              OOP Comparison
             </span>
           </div>
-          <p className="text-xs text-slate-500 font-medium mt-1 max-w-2xl">
-            "Remember the Library Management System from the Python course?" Here is how Python OOP concepts translate directly into statically-typed, high-performance C++ classes!
+          <p className="text-xs text-slate-600 font-normal mt-1 max-w-2xl">
+            "Remember the Library Management System from the Python course?" Here is how Python OOP concepts translate directly into statically-typed C++ classes!
           </p>
         </div>
       </div>
