@@ -738,7 +738,10 @@ const BookRepository& MyLibrary::get_repository() const {
 //              Composition, Aggregation, and Association in execution.
 // ============================================================================
 
+#include "AbstractLibrary.hpp"
 #include "MyLibrary.hpp"
+#include "Book.hpp"
+#include "Member.hpp"
 #include <iostream>
 #include <memory> // For std::unique_ptr, std::shared_ptr, std::make_unique, std::make_shared
 
