@@ -97,3 +97,11 @@ make clean
 
 ## 🤖 AI Usage Statement
 This project used AI support for code structure analysis, C++17 best-practice verification, and generating test fixtures. All design decisions and implementation details were validated manually.
+### AI Usage Disclosure Framework (AI Assessment Scale Compliant)
+- **Framework Standard**: Aligned with AI Assessment Scale (aiassessmentscale.com)
+- **MAIN SCALE: Level 2 - AI Planning & Idea Generation**: Used AI primarily for architectural planning, designing C++ class relationships (AbstractLibrary -> MyLibrary -> Member subclasses), and container strategies (std::vector vs std::unordered_map).
+- **SUPPORTING SCALE: Level 4 - Selective AI Collaboration**: Consulted AI for specific C++ syntax patterns (virtual destructors, const correctness) WITH MANDATORY line-by-line human inspection, manual code editing, beginner-friendly comment rewrites, and local g++ compiler verification.
+- **Sample Prompts Used**:
+  1. "How should I structure a C++ Library Management System with Book, Member, and Library classes across .hpp and .cpp files?"
+  2. "Compare std::vector vs std::unordered_map for BookRepository composition in C++17."
+  3. "Syntax for virtual destructor in Member base class and limit checking in RegularMember vs PremiumMember."
