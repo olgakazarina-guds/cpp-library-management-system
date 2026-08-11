@@ -105,3 +105,9 @@ This project used AI support for code structure analysis, C++17 best-practice ve
   1. "How should I structure a C++ Library Management System with Book, Member, and Library classes across .hpp and .cpp files?"
   2. "Compare std::vector vs std::unordered_map for BookRepository composition in C++17."
   3. "Syntax for virtual destructor in Member base class and limit checking in RegularMember vs PremiumMember."
+
+---
+
+## 📜 License
+This project is licensed under the MIT License.
+
